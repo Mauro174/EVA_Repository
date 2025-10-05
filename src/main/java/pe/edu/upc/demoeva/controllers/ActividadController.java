@@ -6,6 +6,7 @@ import pe.edu.upc.demoeva.servicesinterfaces.IActividadService;
 import pe.edu.upc.demoeva.dtos.ActividadDTOInsert;
 import pe.edu.upc.demoeva.dtos.ActividadDTOList;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
@@ -39,4 +40,27 @@ public class ActividadController {
     public void eliminar(@PathVariable Long id) {
         actividadService.eliminar(id);
     }
+
+    @GetMapping("/buscar/tipo")
+    public List<ActividadDTOList> buscarPorTipo(@RequestParam String tipo) {
+        return actividadService.buscarPorTipo(tipo);
+    }
+
+    @GetMapping("/buscar/usuario")
+    public List<ActividadDTOList> buscarPorUsuario(@RequestParam Long usuarioId) {
+        return actividadService.buscarPorUsuario(usuarioId);
+    }
+
+    @GetMapping("/contar/tipo")
+    public List<Object[]> contarActividadesPorTipo() {
+        return actividadService.contarActividadesPorTipo();
+    }
+
+    @GetMapping("/buscar/fechas")
+    public List<ActividadDTOList> buscarPorRangoFechas(
+            @RequestParam OffsetDateTime inicio,
+            @RequestParam OffsetDateTime fin) {
+        return actividadService.buscarPorRangoFechas(inicio, fin);
+    }
+
 }
