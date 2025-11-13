@@ -13,4 +13,14 @@ public class ConversacionServiceImpl implements IConversacionService {
     public ConversacionServiceImpl(ConversacionRepository repo) { this.repo = repo; }
     public Conversacion guardar(Conversacion c) { return repo.save(c); }
     public List<Conversacion> listar() { return repo.findAll(); }
+
+    @Override
+    public void update(Conversacion c) {
+        repo.save(c);
+    }
+
+    @Override
+    public void delete(Long id) {
+        repo.deleteById(id);
+    }
 }

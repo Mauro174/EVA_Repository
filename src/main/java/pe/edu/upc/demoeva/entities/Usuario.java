@@ -1,10 +1,13 @@
 package pe.edu.upc.demoeva.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -14,13 +17,15 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUsuario;
 
-    @Column(name = "rolUsuario", nullable = false, length = 30)
-    private String rolUsuario;
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<Rol> roles = new ArrayList<>();
 
     @Column(name = "emailUsuario", nullable = false, unique = true, length = 80)
     private String emailUsuario;
 
-    @Column(name = "passwordUsuario", nullable = false, length = 30)
+    @Column(name = "passwordUsuario", nullable = false, length = 100)
     private String passwordUsuario;
 
     @Column(name = "nombreUsuario", nullable = false, length = 120)
@@ -32,13 +37,13 @@ public class Usuario {
     @Column(name = "feNacimientoUsuario", nullable = false)
     private LocalDate feNacimientoUsuario;
 
-    @Column(name = "condicionmedicaUsuario", nullable = false, length = 100)
+    @Column(name = "condicionmedicaUsuario", length = 100)
     private String condicionmedicaUsuario;
 
     @Column(name = "movilidadUsuario", nullable = false)
     private boolean movilidadUsuario;
 
-    @Column(name = "personalizadoUsuario", nullable = false, length = 100)
+    @Column(name = "personalizadoUsuario", length = 100)
     private String personalizadoUsuario;
 
     @Column(name = "volumenUsuario", nullable = false)
@@ -53,28 +58,22 @@ public class Usuario {
     private LocalDate feactualizacionUsuario;
 
     //aqui falta modificarlo por el FK
-    @Column(name = "Integracionesid", nullable = false)
-    private int integracionesid;
+    @Column(name = "Integracionesid",nullable = true)
+    private Integer integracionesid;
 
+    private Boolean enabled;
+
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public Usuario() {}
 
-    public Usuario(int idUsuario, String rolUsuario, String emailUsuario, String passwordUsuario, String nombreUsuario, String apellidoUsuario, LocalDate feNacimientoUsuario, String condicionmedicaUsuario, boolean movilidadUsuario, String personalizadoUsuario, int volumenUsuario, LocalDate fecreacionUsuario, LocalDate feactualizacionUsuario, int integracionesid) {
-        this.idUsuario = idUsuario;
-        this.rolUsuario = rolUsuario;
-        this.emailUsuario = emailUsuario;
-        this.passwordUsuario = passwordUsuario;
-        this.nombreUsuario = nombreUsuario;
-        this.apellidoUsuario = apellidoUsuario;
-        this.feNacimientoUsuario = feNacimientoUsuario;
-        this.condicionmedicaUsuario = condicionmedicaUsuario;
-        this.movilidadUsuario = movilidadUsuario;
-        this.personalizadoUsuario = personalizadoUsuario;
-        this.volumenUsuario = volumenUsuario;
-        this.fecreacionUsuario = fecreacionUsuario;
-        this.feactualizacionUsuario = feactualizacionUsuario;
-        this.integracionesid = integracionesid;
-    }
 
     public int getIdUsuario() {
         return idUsuario;
@@ -84,12 +83,12 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
-    public String getRolUsuario() {
-        return rolUsuario;
+    public List<Rol> getRoles() {
+        return roles;
     }
 
-    public void setRolUsuario(String rolUsuario) {
-        this.rolUsuario = rolUsuario;
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
     }
 
     public String getEmailUsuario() {
@@ -180,11 +179,11 @@ public class Usuario {
         this.feactualizacionUsuario = feactualizacionUsuario;
     }
 
-    public int getIntegracionesid() {
+    public Integer getIntegracionesid() {
         return integracionesid;
     }
 
-    public void setIntegracionesid(int integracionesid) {
+    public void setIntegracionesid(Integer integracionesid) {
         this.integracionesid = integracionesid;
     }
 }

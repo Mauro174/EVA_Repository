@@ -3,6 +3,7 @@ package pe.edu.upc.demoeva.controllers;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.demoeva.dtos.ConversacionDTOInsert;
 import pe.edu.upc.demoeva.dtos.ConversacionDTOList;
@@ -21,10 +22,7 @@ public class ConversacionController {
     @Autowired
     private IConversacionService service;
 
-    @Autowired
-    private UsuarioRepository usuarioRepo;
-
-    @GetMapping
+    @GetMapping("/lista_conversacion")
     public List<ConversacionDTOList> listar(){
         return service.listar().stream().map(ent -> {
             ModelMapper m = new ModelMapper();
@@ -34,17 +32,23 @@ public class ConversacionController {
         }).collect(Collectors.toList());
     }
 
-    @PostMapping
+    @PostMapping("/insertar-conversacion")
     @ResponseStatus(HttpStatus.CREATED)
     public void insertar(@RequestBody ConversacionDTOInsert dto){
         ModelMapper m = new ModelMapper();
         Conversacion ent = m.map(dto, Conversacion.class);
-
-        //if (dto.getUsuarioId() == null) throw new RuntimeException("usuarioId es requerido");
-        //Usuario u = usuarioRepo.findById(Integer.parseInt(getUsuarioId()))
-          //      .orElseThrow(() -> new RuntimeException("Usuario no existe"));
-        //ent.setUsuario(u);
-
         service.guardar(ent);
+    }
+
+    @PutMapping
+    public void modificar(@RequestBody ConversacionDTOInsert dto) {
+        ModelMapper m = new ModelMapper();
+        Conversacion c = m.map(dto, Conversacion.class);
+        service.update(c);
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminar(@PathVariable("id") Long id) {
+        service.delete(id);
     }
 }

@@ -13,4 +13,19 @@ public class MedicamentoServiceImpl implements IMedicamentoService {
     public MedicamentoServiceImpl(MedicamentoRepository repo) { this.repo = repo; }
     @Override public Medicamento guardar(Medicamento m) { return repo.save(m); }
     @Override public List<Medicamento> listar() { return repo.findAll(); }
+
+    @Override
+    public void update(Medicamento m) {
+        repo.save(m);
+    }
+
+    @Override
+    public void delete(Long id) {
+        repo.deleteById(id);
+    }
+
+    @Override
+    public List<String[]> TratamientoCompleto() {
+        return repo.TratamientoCompleto();
+    }
 }
