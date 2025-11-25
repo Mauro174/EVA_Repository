@@ -17,7 +17,6 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUsuario;
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<Rol> roles = new ArrayList<>();
@@ -58,8 +57,8 @@ public class Usuario {
     private LocalDate feactualizacionUsuario;
 
     //aqui falta modificarlo por el FK
-    @Column(name = "Integracionesid",nullable = true)
-    private Integer integracionesid;
+    //@Column(name = "Integracionesid",nullable = true)
+    //private Integer integracionesid;
 
     private Boolean enabled;
 
@@ -74,6 +73,22 @@ public class Usuario {
 
     public Usuario() {}
 
+    public Usuario(int idUsuario, List<Rol> roles, String emailUsuario, String passwordUsuario, String nombreUsuario, String apellidoUsuario, LocalDate feNacimientoUsuario, String condicionmedicaUsuario, boolean movilidadUsuario, String personalizadoUsuario, int volumenUsuario, LocalDate fecreacionUsuario, LocalDate feactualizacionUsuario, Boolean enabled) {
+        this.idUsuario = idUsuario;
+        this.roles = roles;
+        this.emailUsuario = emailUsuario;
+        this.passwordUsuario = passwordUsuario;
+        this.nombreUsuario = nombreUsuario;
+        this.apellidoUsuario = apellidoUsuario;
+        this.feNacimientoUsuario = feNacimientoUsuario;
+        this.condicionmedicaUsuario = condicionmedicaUsuario;
+        this.movilidadUsuario = movilidadUsuario;
+        this.personalizadoUsuario = personalizadoUsuario;
+        this.volumenUsuario = volumenUsuario;
+        this.fecreacionUsuario = fecreacionUsuario;
+        this.feactualizacionUsuario = feactualizacionUsuario;
+        this.enabled = enabled;
+    }
 
     public int getIdUsuario() {
         return idUsuario;
@@ -179,11 +194,11 @@ public class Usuario {
         this.feactualizacionUsuario = feactualizacionUsuario;
     }
 
-    public Integer getIntegracionesid() {
-        return integracionesid;
-    }
+    //public Integer getIntegracionesid() {
+      //  return integracionesid;
+    //}
 
-    public void setIntegracionesid(Integer integracionesid) {
-        this.integracionesid = integracionesid;
-    }
+    //public void setIntegracionesid(Integer integracionesid) {
+        //this.integracionesid = integracionesid;
+    //}
 }

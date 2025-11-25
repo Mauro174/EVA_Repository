@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.demoeva.dtos.CantidadMedicamentosDTO;
 import pe.edu.upc.demoeva.dtos.CantidadRelacionesDTO;
@@ -28,7 +27,7 @@ public class UsuarioController {
     public Usuario insertar(@RequestBody Usuario u) { return service.insertar(u); }
 
     @GetMapping
-    //@PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAnyAuthority('ADMIN')")
     public List<UsuarioDTO>listar(){
         return service.listar().stream().map(x->{
             ModelMapper m = new ModelMapper();
@@ -121,7 +120,7 @@ public class UsuarioController {
 
         return ResponseEntity.ok(listaDTO);
     }
-
+    //@PreAuthorize("hasAnyAuthority('ADMIN','PACIENTE')")
     @GetMapping("/cantidadMedicamentos")
     public ResponseEntity<?> obtenerCantidadMedicamentos() {
         List<CantidadMedicamentosDTO> listaDTO=new ArrayList<>();

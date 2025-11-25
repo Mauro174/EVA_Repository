@@ -57,6 +57,7 @@ public class MedicamentoController {
         service.delete(id);
     }
 
+
     @GetMapping("/tratamientocomplejo")
     public List<TratamientoCompletoDTO> tratamientoComplejo(){
         List<TratamientoCompletoDTO> dtoList = new ArrayList<>();
@@ -65,7 +66,7 @@ public class MedicamentoController {
             TratamientoCompletoDTO dto2 = new TratamientoCompletoDTO();
             dto2.setIdusario(Integer.parseInt(columna[0]));
             dto2.setNombreusuario(columna[1]);
-            dto2.setCantidadmedicamentos(Integer.parseInt(columna[0]));
+            dto2.setCantidadmedicamentos(Integer.parseInt(columna[2]));
             dtoList.add(dto2);
         }
 
