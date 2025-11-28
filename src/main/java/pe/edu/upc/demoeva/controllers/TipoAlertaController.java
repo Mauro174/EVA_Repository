@@ -20,18 +20,47 @@ public class TipoAlertaController {
     private ITipoAlertaService service;
 
     @GetMapping
-    public List<TipoAlertaDTOList> listar() {
-        return service.listar().stream().map(ent -> {
-            ModelMapper m = new ModelMapper();
-            return m.map(ent, TipoAlertaDTOList.class);
-        }).collect(Collectors.toList());
+    public List<TipoAlerta> listar() {
+        return service.listar();
+    }
+
+    @GetMapping("/{id}")
+    public TipoAlerta obtenerPorId(@PathVariable Long id) {
+        return service.obtenerPorId(id);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void insertar(@RequestBody TipoAlertaDTOInsert dto) {
-        ModelMapper m = new ModelMapper();
-        TipoAlerta ent = m.map(dto, TipoAlerta.class);
-        service.guardar(ent);
+    public TipoAlerta registrar(@RequestBody TipoAlerta tipoAlerta) {
+        return service.guardar(tipoAlerta);
+    }
+
+    @PutMapping("/{id}")
+    public TipoAlerta actualizar(@PathVariable Long id, @RequestBody TipoAlerta tipoAlerta) {
+        return service.actualizar(id, tipoAlerta);
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminar(@PathVariable Long id) {
+        service.eliminar(id);
+    }
+
+    @GetMapping("/buscar/nombre/{nombre}")
+    public List<TipoAlerta> buscarPorNombre(@PathVariable String nombre) {
+        return service.buscarPorNombre(nombre);
+    }
+
+    @GetMapping("/buscar/nivel/{nivel}")
+    public List<TipoAlerta> buscarPorNivel(@PathVariable String nivel) {
+        return service.buscarPorNivel(nivel);
+    }
+
+    @GetMapping("/estadisticas/por-tipo")
+    public List<Object[]> contarAlertasPorTipo() {
+        return service.contarAlertasPorTipo();
+    }
+
+    @GetMapping("/estadisticas/mas-frecuentes")
+    public List<Object[]> tiposMasFrecuentes() {
+        return service.tiposMasFrecuentes();
     }
 }

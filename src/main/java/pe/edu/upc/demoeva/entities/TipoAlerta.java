@@ -19,6 +19,9 @@ public class TipoAlerta {
     @Column(name = "descri", columnDefinition = "text")
     private String descri;
 
+    @Column(name = "nivel", length = 50)
+    private String nivel;
+
     public TipoAlerta() {}
 
     public Long getId() { return id; }
@@ -29,4 +32,6 @@ public class TipoAlerta {
     public void setNombr(String nombr) { this.nombr = nombr; }
     public String getDescri() { return descri; }
     public void setDescri(String descri) { this.descri = descri; }
+    public String getNivel() { return nivel; }
+    public void setNivel(String nivel) { this.nivel = nivel; }
 }

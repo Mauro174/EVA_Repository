@@ -13,6 +13,7 @@ import pe.edu.upc.demoeva.repositories.TipoAlertaRepository;
 import pe.edu.upc.demoeva.repositories.UsuarioRepository;
 import pe.edu.upc.demoeva.servicesinterfaces.IAlertaService;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,27 @@ public class AlertaController {
 
     @Autowired
     private IAlertaService service;
+
+    @GetMapping("/tipo/{tipoId}")
+    public List<Alerta> buscarPorTipo(@PathVariable Long tipoId) {
+        return service.buscarPorTipo(tipoId);
+    }
+
+    @GetMapping("/usuario/{usuarioId}")
+    public List<Alerta> buscarPorUsuario(@PathVariable Long usuarioId) {
+        return service.buscarPorUsuario(usuarioId);
+    }
+
+    @GetMapping("/estadisticas/tipo")
+    public List<Object[]> contarPorTipo() {
+        return service.contarAlertasPorTipo();
+    }
+
+    @GetMapping("/emergencias")
+    public List<Alerta> buscarEmergenciasRecientes(@RequestParam("desde") String desde) {
+        OffsetDateTime fechaDesde = OffsetDateTime.parse(desde);
+        return service.buscarEmergenciasRecientes(fechaDesde);
+    }
 
     @Autowired
     private UsuarioRepository usuarioRepo;
