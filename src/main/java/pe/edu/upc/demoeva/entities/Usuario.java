@@ -17,8 +17,8 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUsuario;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
+    //@JoinColumn(name = "user_id")
     private List<Rol> roles = new ArrayList<>();
 
     @Column(name = "emailUsuario", nullable = false, unique = true, length = 80)

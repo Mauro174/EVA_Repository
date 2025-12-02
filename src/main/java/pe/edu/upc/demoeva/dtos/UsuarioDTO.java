@@ -1,10 +1,5 @@
 package pe.edu.upc.demoeva.dtos;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 import java.time.LocalDate;
 
 public class UsuarioDTO {
@@ -14,21 +9,21 @@ public class UsuarioDTO {
     private String rolUsuario;
 
     private String emailUsuario;
-
     private String passwordUsuario;
-
     private String nombreUsuario;
-
     private String apellidoUsuario;
-
     private LocalDate feNacimientoUsuario;
-
     private String condicionmedicaUsuario;
-
     private boolean movilidadUsuario;
+
+    // 👇 FALTABAN ESTOS CAMPOS
+    private String personalizadoUsuario;
+    private int volumenUsuario;
+    private Boolean enabled;
 
     private LocalDate fecreacionUsuario;
 
+    // === GETTERS & SETTERS ===
 
     public int getIdUsuario() {
         return idUsuario;
@@ -100,6 +95,30 @@ public class UsuarioDTO {
 
     public void setMovilidadUsuario(boolean movilidadUsuario) {
         this.movilidadUsuario = movilidadUsuario;
+    }
+
+    public String getPersonalizadoUsuario() {
+        return personalizadoUsuario;
+    }
+
+    public void setPersonalizadoUsuario(String personalizadoUsuario) {
+        this.personalizadoUsuario = personalizadoUsuario;
+    }
+
+    public int getVolumenUsuario() {
+        return volumenUsuario;
+    }
+
+    public void setVolumenUsuario(int volumenUsuario) {
+        this.volumenUsuario = volumenUsuario;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public LocalDate getFecreacionUsuario() {

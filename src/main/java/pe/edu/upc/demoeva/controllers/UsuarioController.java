@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.demoeva.dtos.CantidadMedicamentosDTO;
 import pe.edu.upc.demoeva.dtos.CantidadRelacionesDTO;
 import pe.edu.upc.demoeva.dtos.UsuarioDTO;
+import pe.edu.upc.demoeva.entities.Rol;
 import pe.edu.upc.demoeva.entities.Usuario;
 import pe.edu.upc.demoeva.servicesinterfaces.IUsuarioService;
 
@@ -27,24 +28,40 @@ public class UsuarioController {
     public Usuario insertar(@RequestBody Usuario u) { return service.insertar(u); }
 
     @GetMapping
-    //@PreAuthorize("hasAnyAuthority('ADMIN')")
-    public List<UsuarioDTO>listar(){
-        return service.listar().stream().map(x->{
+    public List<UsuarioDTO> listar() {
+        return service.listar().stream().map(usuario -> {
+
             ModelMapper m = new ModelMapper();
-            return m.map(x,UsuarioDTO.class);
+            UsuarioDTO dto = m.map(usuario, UsuarioDTO.class);
+
+            // 👇 Agregar rol al DTO (igual que en listarId)
+            if (usuario.getRoles() != null && !usuario.getRoles().isEmpty()) {
+                dto.setRolUsuario(usuario.getRoles().get(0).getRol());
+            }
+
+            return dto;
+
         }).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> listarId(@PathVariable("id") Integer id) {
         Usuario soft = service.ListId(id);
+
         if (soft == null) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body("No existe un registro con el ID: " + id);
         }
+
         ModelMapper m = new ModelMapper();
         UsuarioDTO dto = m.map(soft, UsuarioDTO.class);
+
+        // 👇 Aquí seteamos el rol manualmente
+        if (soft.getRoles() != null && !soft.getRoles().isEmpty()) {
+            dto.setRolUsuario(soft.getRoles().get(0).getRol());
+        }
+
         return ResponseEntity.ok(dto);
     }
 
@@ -64,17 +81,20 @@ public class UsuarioController {
         ModelMapper m = new ModelMapper();
         Usuario s = m.map(dto, Usuario.class);
 
-        // Validación de fecha
-        //if (s.getPurchaseDate().isAfter(LocalDate.now())) {
-        //    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        //            .body("La fecha de registro no puede ser futura. Valor recibido: " + s.getPurchaseDate());
-        //}
-
         // Validación de existencia
         Usuario existente = service.ListId(s.getIdUsuario());
         if (existente == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No se puede modificar. No existe un registro con el ID: " + s.getIdUsuario());
+        }
+
+        // 3) Construir la lista de roles a partir de dto.getRolUsuario()
+        //    (solo usamos el String, no el id ni el user)
+        if (dto.getRolUsuario() != null && !dto.getRolUsuario().isEmpty()) {
+            Rol r = new Rol();
+            r.setRol(dto.getRolUsuario());   // ADMIN / PACIENTE / MEDICO
+            // NO seteamos r.setUser() aquí, eso lo hará el service.update
+            s.setRoles(List.of(r));
         }
 
         // Actualización si pasa validaciones

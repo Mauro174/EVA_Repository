@@ -21,4 +21,9 @@ public interface FotosRepository extends JpaRepository<Fotos, Long> {
             "ORDER BY \n" +
             "    cantidad_fotos DESC;",nativeQuery = true)
     public List<String[]> MasFotos();
+
+    List<Fotos> findByIdUsuario_IdUsuarioOrderByIdAsc(int idUsuario);
+
+
+
 }

@@ -15,8 +15,9 @@ public class Rol implements Serializable {
 
     private String rol;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private Usuario user;
 
 

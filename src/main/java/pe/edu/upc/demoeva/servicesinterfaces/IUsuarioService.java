@@ -14,5 +14,6 @@ public interface IUsuarioService {
     public List<Usuario> buscarUsuario(String eUsuario);
     public List<String[]> cantidadDeRelaciones();
     public List<String[]> cantidadDeMedicamentos();
+    Usuario buscarPorNombreUsuario(String nombreUsuario);
 
 }

@@ -23,7 +23,6 @@ public class Fotos {
 
     @Column(name = "descripcion", columnDefinition = "text")
     private String descripcion;
-
     @Column(name = "fecha_creacion")
     private LocalDate fecha_Creacion;
 
