@@ -10,6 +10,7 @@ import pe.edu.upc.demoeva.entities.Usuario;
 import pe.edu.upc.demoeva.dtos.ActividadDTOInsert;
 import pe.edu.upc.demoeva.dtos.ActividadDTOList;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,4 +81,34 @@ public class ActividadServiceImpl implements IActividadService {
         }
         actividadRepository.deleteById(id);
     }
+
+    @Override
+    public List<ActividadDTOList> buscarPorTipo(String tipo) {
+        return actividadRepository.findByTipo(tipo)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ActividadDTOList> buscarPorUsuario(Long usuarioId) {
+        return actividadRepository.findByUsuario(usuarioId)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Object[]> contarActividadesPorTipo() {
+        return actividadRepository.countActividadesPorTipo();
+    }
+
+    @Override
+    public List<ActividadDTOList> buscarPorRangoFechas(OffsetDateTime inicio, OffsetDateTime fin) {
+        return actividadRepository.findByRangoFechas(inicio, fin)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
 }
